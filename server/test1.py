@@ -1,3 +1,4 @@
+import numpy as np
 from PIL import Image
 from base_camera import BaseCamera
 import io
