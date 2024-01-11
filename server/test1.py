@@ -7,9 +7,11 @@ class TestCamera(BaseCamera):
     @staticmethod
     def frames():
         while True:
+
+            black_image= np.zeros((480,640,3),dtype=np.uint8)
             # Replace this with the logic to capture frames from your camera
             # For now, let's return a simple black image
-            yield (b'255' * 640 * 480 * 3)
+            yield black_image.tobytes()
 
 def display_camera():
     camera = TestCamera()
