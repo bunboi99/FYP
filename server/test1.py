@@ -20,18 +20,7 @@ def display_camera():
         # Get the current frame from the camera
         frame = camera.get_frame()
 
-        # Convert the frame to a numpy array
-        frame = np.frombuffer(frame, dtype=np.uint8).reshape((480, 640, 3))
-
-        # Convert the OpenCV image to a Pillow image
-        pillow_image = Image.fromarray(frame)
-
-        # Display the Pillow image in a pop-up window
-        pillow_image.show()
-
-        # Check for the 'q' key to exit the loop and close the window
-        key = input("Press 'q' to quit: ")
-        if key.lower() == 'q':
+        if cv2.waitKey(1) & 0xFF == ord('q'):
             break
 
     # Release the camera
