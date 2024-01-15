@@ -1,30 +1,28 @@
-import numpy as np
-from PIL import Image
-from base_camera import BaseCamera
-import io
+from flask import Flask, render_template, Response
+import cv2
 
-class TestCamera(BaseCamera):
-    @staticmethod
-    def frames():
-        while True:
+app = Flask(__name__)
 
-            black_image= np.zeros((480,640,3),dtype=np.uint8)
-            # Replace this with the logic to capture frames from your camera
-            # For now, let's return a simple black image
-            yield black_image.tobytes()
+@app.route('/')
+def index():
+    return render_template('index.html')
 
-def display_camera():
-    camera = TestCamera()
-
+def gen():
+    cap = cv2.VideoCapture(0)
     while True:
-        # Get the current frame from the camera
-        frame = camera.get_frame()
-
-        if cv2.waitKey(1) & 0xFF == ord('q'):
+        ret, frame = cap.read()
+        if not ret:
             break
+        else:
+            ret, buffer = cv2.imencode('.jpg', frame)
+            frame = buffer.tobytes()
+            yield (b'--frame\r\n'
+                   b'Content-Type: image/jpeg\r\n\r\n' + frame + b'\r\n')
 
-    # Release the camera
-    camera.release_camera()
+@app.route('/video_feed')
+def video_feed():
+    return Response(gen(),
+                    mimetype='multipart/x-mixed-replace; boundary=frame')
 
 if __name__ == '__main__':
-    display_camera()
+    app.run(host='0.0.0.0', debug=True)
