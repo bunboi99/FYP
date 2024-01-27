@@ -1,4 +1,6 @@
 import json
+import os
+from datetime import datetime
 
 def format_chat_log(chat_log):
     formatted_chat_log = ""
@@ -6,6 +8,8 @@ def format_chat_log(chat_log):
     for request in requests:
         # Check if the 'message' key exists before trying to access it
         if 'message' in request and 'text' in request['message']:
+            # Add the line of dashes
+            formatted_chat_log += "------------------------------------------------------------------------------------------------------------------------------------------------\n"
             # Add the message text to the log with 'input:' prepended
             formatted_chat_log += f"input: {request['message']['text']}\n"
         
@@ -17,6 +21,8 @@ def format_chat_log(chat_log):
         if 'followups' in request:
             for followup in request['followups']:
                 if 'message' in followup:
+                    # Add the line of dashes
+                    formatted_chat_log += "--------------------------------------------------------------------------------------------------------------------------------------------------------\n"
                     # Add the follow-up message to the log with 'input:' prepended
                     formatted_chat_log += f"input: {followup['message']}\n"
     
@@ -29,6 +35,21 @@ with open('chat.json', 'r') as f:
 # Format the chat log
 formatted_chat_log = format_chat_log(chat_log)
 
-# Write the formatted chat log to a text file
-with open('formatted_chat_log.txt', 'w') as f:
+# Get the current date
+current_date = datetime.now()
+
+# Format the date as a string in the "dd/mm/yyyy" format
+date_string = current_date.strftime("%d_%m_%Y")
+
+# Create the file name
+file_name = f"{date_string}.txt"
+
+# Specify the directory where you want to create the file
+directory = r"/home/wangding/adeept_rasptank/server/chat_logs"
+
+# Create the full file path
+file_path = os.path.join(directory, file_name)
+
+# Create and open the file
+with open(file_path, 'w') as f:
     f.write(formatted_chat_log)
