@@ -22,7 +22,7 @@ def detect_objects(frame):
                "bottle", "bus", "car", "cat", "chair", "cow", "diningtable",
                "dog", "horse", "motorbike", "person", "pottedplant", "sheep",
                "sofa", "train", "tvmonitor"]
-
+    
     # Resize the frame to 300x300 pixels (the input size that the model expects)
     blob = cv2.dnn.blobFromImage(cv2.resize(frame, (300, 300)), 0.007843, (300, 300), 127.5)
 
@@ -76,7 +76,7 @@ def gen():
                 b'Content-Type: image/jpeg\r\n\r\n' + jpeg.tobytes() + b'\r\n')
     except KeyboardInterrupt:
         cap.release()
-        
+
 @app.route('/video_feed')
 def video_feed():
     """Video streaming route. Put this in the src attribute of an img tag."""
