@@ -23,7 +23,7 @@ import asyncio
 import websockets
 
 import json
-import app
+import appp
 
 OLED_connection = 1
 try:
@@ -516,8 +516,8 @@ async def main_logic(websocket, path):
     await check_permit(websocket)
     await recv_msg(websocket)
 
-import atexit
-from camera_opencv import Camera
+#import atexit
+#from camera_opencv import Camera
 
 if __name__ == '__main__':
     switch.switchSetup()
@@ -529,13 +529,11 @@ if __name__ == '__main__':
     ADDR = (HOST, PORT)
 
     global flask_app
-    flask_app = app.webapp()
+    flask_app = appp.WebApp()
     flask_app.startthread()
     
-    def clean_up(camera):
-        camera.release()
     
-    atexit.register(clean_up,flask_app.camera)
+    #atexit.register(clean_up,flask_app.camera)
 
     try:
         RL=robotLight.RobotLight()

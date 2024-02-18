@@ -1,6 +1,6 @@
 from flask import Flask, render_template, Response
 import cv2
-from camera_opencv import Camera, CVThread
+from camera_opencv1 import Camera, CVThread
 
 app = Flask(__name__)
 

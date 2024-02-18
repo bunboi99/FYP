@@ -2,6 +2,7 @@
 from importlib import import_module
 import os
 from flask import Flask, render_template, Response
+#from camera_opencv1 import Camera
 
 # import camera driver
 #if os.environ.get('CAMERA'):
@@ -13,7 +14,7 @@ from flask import Flask, render_template, Response
 from camera_pi import Camera
 
 app = Flask(__name__)
-
+cam = Camera()
 
 @app.route('/')
 def index():
@@ -23,7 +24,7 @@ def index():
 
 def gen(camera):
     """Video streaming generator function."""
-    yield b'--frame\r\n'
+    #yield b'--frame\r\n'
     try:
         while True:
             frame = camera.get_frame()
